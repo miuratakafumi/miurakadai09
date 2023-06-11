@@ -7,12 +7,7 @@
 
 import UIKit
 
-// 文字列を取得するメソッドをプロトコルで定義
-protocol DestinationDelegate {
-    func userDidEnterInformation(info: String)
-}
-
-class ViewController: UIViewController, DestinationDelegate {
+class ViewController: UIViewController, CityViewControllerDelegate {
     
     // ラベルを配置
     @IBOutlet private weak var label: UILabel!
@@ -24,8 +19,8 @@ class ViewController: UIViewController, DestinationDelegate {
     }
     
     // CityViewControllerから地名を取得しラベルに表示したのちモーダルを閉じる
-    func userDidEnterInformation(info: String) {
-        label.text = info
+    func didSelectCity(name: String) {
+        label.text = name
         dismiss(animated: true, completion: nil)
     }
     
@@ -41,7 +36,7 @@ class ViewController: UIViewController, DestinationDelegate {
             if let navigation = segue.destination as? UINavigationController,
                // UINavigationControllerの最初のビューコントローラーをCityViewController型に変換して取得
                let city = navigation.viewControllers.first as? CityViewController {
-                city.cityName = self
+                city.delegate = self
             }
         }
     }
